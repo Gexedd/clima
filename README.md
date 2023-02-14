@@ -1,6 +1,6 @@
 # clima
 
-Proyecto que toma información del clima desde una API
+Proyecto en Flutter que toma información del clima desde una API
 
 ## Getting Started
 
