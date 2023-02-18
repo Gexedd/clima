@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:clima/services/location.dart';
 
 class LoadingScreen extends StatefulWidget {
   @override
@@ -7,24 +7,21 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-
   @override
   void initState() {
     super.initState();
     getLocation();
   }
-  
+
   //Creo el método
+  //Y dentro se crea el objeto de la clase Location
   void getLocation() async {
-    LocationPermission permission = await Geolocator.requestPermission();
-    try {
-      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-      print (permission);
-      print(position);
-    } catch (e) {
-      print (e);
-    }
-    }
+    Location location = Location();
+    await location.getCurrentLocation();
+
+    print(location.latitude);
+    print(location.longitude);
+  }
 
   @override
   Widget build(BuildContext context) {
