@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:clima/services/location.dart';
 
 import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+const apiKey ='0359c828acdd1faa944ac9e19b05fe3e';
 
 class LoadingScreen extends StatefulWidget {
   @override
@@ -9,6 +12,10 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
+
+  double latitude=0;
+  double longitude=0;
+
   @override
   void initState() {
     super.initState();
@@ -22,17 +29,33 @@ class _LoadingScreenState extends State<LoadingScreen> {
     Location location = Location();
     await location.getCurrentLocation();
 
-    //print(location.latitude);
-    //print(location.longitude);
+    latitude =location.latitude;
+    longitude=location.longitude;
+
+    getData();
   }
 
   //Creando un nuevo método para obtener la info del http
   void getData() async {
-    http.Response response= await  http.get(Uri.parse('https://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99&appid=0359c828acdd1faa944ac9e19b05fe3e'));
+    http.Response response= await  http.get(Uri.parse('https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey'));
 
   if (response.statusCode == 200) {
     String data = response.body;
-    print(data);
+
+
+    //Utilizo la función JsonDecode, importada del paquete DartConvert
+    var longitude = jsonDecode(data)['coord']['lon'];
+
+
+    var temp = jsonDecode(data)['main']['temp'];
+    var condition =jsonDecode(data)['weather'][0]['id'];
+    var cityName =jsonDecode(data)['name'];
+
+    print(longitude);
+    print(temp);
+    print(condition);
+    print(cityName);
+
   }else {
     print(response.statusCode);
   }
@@ -41,7 +64,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    getData();
+
     return Scaffold();
 
   }

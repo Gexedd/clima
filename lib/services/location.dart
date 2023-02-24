@@ -10,7 +10,7 @@ class Location {
     try {
       Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
       print ('prueba de   +$permission');
-      print('prueba de  $position');
+      //print('prueba de  $position');
 
       latitude=position.latitude;
       longitude=position.longitude;
